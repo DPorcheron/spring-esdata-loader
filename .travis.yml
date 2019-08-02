@@ -1,7 +1,16 @@
 language: java
 sudo: false
-install: true
+before_install:
+  - git fetch --unshallow || true
+  - git config user.email "builder@travis-ci.org"
+  - git config user.name "Travis-CI"
+  - git config url.https://.insteadOf git://
+  - git checkout -qf $TRAVIS_BRANCH
+# skip default gradlew assemble
+install:
+  - echo "skip default gradlew assemble"
 script: "./buildViaTravis.sh"
+
 jdk:
 - openjdk8
 services:
@@ -14,6 +23,9 @@ env:
   - secure: LQxYeRIXkmYZnYiRSnjACRBXjmkYwC6Vxd3d9bdJ689wQZBUsrzdZM85zvRtJYCatHbss5DqPSC80aLEIc7gdwaGvxtYjIp352Svz5bM7nBq6I8mq2XP7a9ZHg2YLpjnyXbrIZlmmX/RJanT9gREjwNlIdhoO9N68gd+jMDMA8Tfqsbp2gUkVWo+5ze8p1cUsV+YXVfEhZGU7kpUuB98r0Odk+RhYNZCGjknXVw9XF0KNkxRa1gSS1Afb9kAM0aRSaSZs5wGw1AYqEP/Twq/DqunjrdJBJxC+B/e1Amphod4/apv9LcrsKsExCuo0mq2YNjChBAUi2VKF/lT+YK/KYPawAR9iUMPLMF+oYI5D+3K2Z9NXZ+jiuCrprva2KRXgJEcmSbAXC0pBcxYIPw/L0TZQfR78ga4XNUZTyao59izJo+42kw2gJLNtFoP5rTojKcUHzHU1vPMvI73ViG1r4UkLDIK+lfUGrysuMatIR1WfIkIO1NQEW4e7fIzmHP669YuG0JD88ZBQsHYuNnyi/KhsE0fgfTqNarsmX+Q2pRmgXXoLAFO/8D5WeZbRwW6m2Jtq6NZAmD7HX0h4+ASb0hSj8lB4JG0EtqjGRRYWlFSSwMGu/X9UFFbZOpDgNqeq7uLark6GW7u/+ofHiteEm4h/1k3XpEe4tbh0pftNqM=
   - secure: ZaZhM1z2TKnwyBuTBKMEDn/A6mUU3r0aPHw7wKY5o88pGq0q/Cb3ENDtPlLu4UgGgx2a5yn/2nCQROJl0dhjf8sU67M7jrwvDytZ+EDU1cxlYFCZ4eOBY0Zux7id/eCoyW+JCXDaMkys+2sSexhmIbDy4MMvPyY6/4EX8Z42V6WhdE+9snIo/ylVBs2HItjv3iwROLHNjLli0HUZHZirbCIPLhdEPb5b8gAa34qGI60CVa07Z7wqMWpN0t7H6F+j7LcbMZ596BX4AonF3NCNuRVCqIElw+QaF3AXlGk8oRkeUaPW/FisAw7hQlJq63KwheWSPEBg4i+hCTB9pGr/7Zen/Ojms0KwtuzvknalJCLazgAKavhsSVqzfASchOgnMtFe6IPayYidDluZLm2saqLZcY7QG7HGHHcsJ/nUpJ6c8ptq12Rw1MgdvDqv22xqP9KqTT1nO/uuqM+WygwoLo4R49VYR60c/NkNRHGKoIebvRYr9/pjKGWXgvD6BUuOE/8tW2J2eA36WbjsY1cdl7vfNY+8Kia+9A3VVRcq5SqGsR0AdFvWzdDMxfd2xcSm5WYV+aqZrgU/XChuOV4pXAEFNPNhZXxkr3lojy782YvXtLV8sitEuaTBLHKECrFF4kokrftCIS5vTLw0YvPDElk84xEWzXQ0cQuXRx/K89o=
   - secure: d8ctWsQ/mpLq0wT0qGQvqpJgW7L3Yq39K4vNxinobkmaCna1n4I5/zTmYdYl/2wXghPtIFJGFJBvGT03QlUjWFrmRLSlc9GuntwBwEqkSj244+eUvp6BBPnf5zwcDpk3edLBEFBOIQaELHdn3qN7VwC1w8zyrzjEDg9DdSWRluE5ohCFBiFutkD5W8MP96QjYtanO4NqdPrU3E//SYD364bHjxTGQcpfW71GlfmNJKFczRbItvrdxxXkZNs+lSuPzMAMjOlYAOPxzWe9nYwZ7TAy8qH2/sTB9bEmbwlwej3Im4hyaySu7WdXF52rijke8eaOPCKvX0PXXv3Xdxr5UQ7yx/avh+2VkJcVS6/PK72YUOnSwvAB7LIxaQfXg+EeaPCQ1vnAuXL7GMwT1H2TSiht2h86DWC+z1e9pbmfTW2GfmI3fjd0HnKVb6WeVwx9WWOajsLDW/01MoofvuQrgoIUkPiKY3PfYqmbq8UhhVnbH/kCO/DzN8Uz/BuUzqCXC0eRB5V40GhQM74bzIi4+E53XMY6ZqX8yg69ukQ/DUXyjBTiybJgleWwrQ7u5Cxyb3zo9w14PAvy6TiMR44MF5BMLHZ+vzTTpKh6O4JfRAufMN3vdEGUanCZY4KA5EYUSkTI0lL7ObRP0CpsLcSHFWn7huhrMojnJiLHWtJXFF8=
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/

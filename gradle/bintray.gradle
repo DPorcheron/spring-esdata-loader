@@ -2,7 +2,7 @@ apply plugin: "nebula.nebula-bintray"
 
 bintray {
   user = project.bintrayUsername ?: "tinesoft"
-  apiKey = project.bintrayKey
+  apiKey = project.bintrayKey ?: ""
 
   repo = "maven"
   userOrg = "tinesoft"
